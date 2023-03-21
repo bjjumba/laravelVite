@@ -1,9 +1,11 @@
 <?php
-
+//add route
+use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,16 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//sample roue
+
+Route::get('/b',function(){
+   //we can fetch users in three ways
+   //1.using DB facades
+   $users=DB::select('select * from users');
+   dd($users);//dd for formating
+});
+
+//end sample
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -28,6 +40,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+//added 
+
+Route::resource('chirps', ChirpController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth', 'verified']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
