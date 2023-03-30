@@ -1,6 +1,7 @@
 <?php
 //add route
 use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\FallBackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\NoteController;
@@ -62,8 +63,30 @@ Route::middleware('auth')->group(function () {
 });
 //post controller
 //Get
-Route::get('/post',[PostsController::class,'index']);
-Route::get('/post/{id}',[PostsController::class,'show']);
+Route::get('/post',[PostsController::class,'index'])->name('blog.index');
+Route::get('/post/{id}',[PostsController::class,'show'])->name('blog.show');
+
+//POST
+Route::get('/post/create',[PostsController::class,'create'])->name('blog.create');
+Route::post('/post',[PostsController::class,'store'])->name('blog.store');
+
+//PATCH OR PUT
+Route::get('/post/edit/{id}',[PostsController::class,'edit'])->name('blog.edit');
+Route::patch('/post/{id}',[PostsController::class,'update'])->name('blog.update');
+
+//delete
+Route::delete('/post/{id}',[PostsController::class,'destroy']);
+
+//Resource Route
+
+// Route::resource('/post',PostsController::class);
+
+/*
+   We can use prefix routes to group a specific routes
+   Route::prefix('/blog')->group(function(){
+      routes go in here
+   })
+*/
 
 
 // //cousera routes
@@ -74,9 +97,14 @@ Route::get('/post/{id}',[PostsController::class,'show']);
 // Route::get('/notes/{note}');
 
 // //post route
-// Route::post('/notes');
+Route::post('/notes');
 
-Route::resource('/notes',NoteController::class)->middleware(['auth']);
+// Route::resource('/notes',NoteController::class)->middleware(['auth']);
+
+
+/*  Define FallBack Controller */
+
+Route::fallback(FallBackController::class);
 
 
 
