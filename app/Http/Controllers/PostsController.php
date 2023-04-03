@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
@@ -10,7 +11,12 @@ class PostsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+
     {
+        //declare variable to hold data
+        // $id=1;
+        // $posts=DB::select("SELECT * FROM posts WHERE id=?",[$id]);
+        // dd($posts);
         return view('posts.index');
     }
 
