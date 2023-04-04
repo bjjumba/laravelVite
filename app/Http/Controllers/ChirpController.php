@@ -6,6 +6,7 @@ use App\Models\Chirp;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
 
 class ChirpController extends Controller
 {
@@ -15,7 +16,9 @@ class ChirpController extends Controller
     public function index(): Response
     {
       //apply inertia response
-        return Inertia::render('Chirps/Index',[]);
+        return Inertia::render('Chirps/Index',[
+            'chirps'=>Chirp::with('user:id,name')->latest()->get(),
+        ]);
     }
 
     /**
@@ -29,9 +32,19 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request):RedirectResponse
     {
-        //
+
+        //use php validation
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+
+        $request->user()->chirps()->create($validated);
+
+        //user gets the current user
+
+        return redirect(route('chirps.index'));
     }
 
     /**
