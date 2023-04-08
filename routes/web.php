@@ -5,6 +5,7 @@ use App\Http\Controllers\FallBackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,11 @@ Route::patch('/post/{id}',[PostsController::class,'update'])->name('blog.update'
 
 //delete
 Route::delete('/post/{id}',[PostsController::class,'destroy']);
+
+
+Route::get('/users',[UserController::class,'index']);
+Route::post('/import',[UserController::class,'import_user'])->name('import');
+
 
 //Resource Route
 

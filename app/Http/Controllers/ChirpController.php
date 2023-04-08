@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 
+
 class ChirpController extends Controller
 {
     /**
@@ -45,6 +46,7 @@ class ChirpController extends Controller
         //user gets the current user
 
         return redirect(route('chirps.index'));
+
     }
 
     /**
